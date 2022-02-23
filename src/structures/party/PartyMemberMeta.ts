@@ -1,7 +1,8 @@
 import Meta from '../../util/Meta';
 import type {
   AssistedChallengeMeta,
-  BannerMeta, BattlePassMeta, CosmeticsVariantMeta, MatchMeta, PartyMemberSchema, Platform,
+  BannerMeta, BattlePassMeta, CampaignInfoMeta, CosmeticsVariantMeta, MatchMeta, PartyMemberSchema,
+  PartyMemberZoneInstanceIdMeta, Platform,
 } from '../../../resources/structs';
 
 /**
@@ -149,6 +150,64 @@ class PartyMemberMeta extends Meta<PartyMemberSchema> {
    */
   public get hasPurchasedSTW() {
     return !!this.get('Default:HasPurchasedSTW_b');
+  }
+
+  /**
+   * Whether the member has completed the Save The World tutorial
+   */
+  public get hasCompletedSTWTutorial() {
+    return !!this.get('Default:HasCompletedSTWTutorial_b');
+  }
+
+  /**
+   * Whether the member's platform supports Save The World
+   */
+  public get platformSupportsSTW() {
+    return !!this.get('Default:PlatformSupportsSTW_b');
+  }
+
+  /**
+   * The member's STW lobby state
+   */
+  public get campaignInfo(): CampaignInfoMeta | undefined {
+    return this.get('Default:CampaignInfo_j')?.CampaignInfo;
+  }
+
+  /**
+   * The member's STW zone instance ID
+   * @see {@link PartyMeta#zoneInstanceId}
+   */
+  public get zoneInstanceId(): PartyMemberZoneInstanceIdMeta | undefined {
+    const val = this.campaignInfo?.zoneInstanceId;
+    return typeof val === 'string' && val ? JSON.parse(val) : undefined;
+  }
+
+  /**
+   * The STW mission ID: a GUID identifying a mission from the World Info structure
+   */
+  public get theaterMissionId(): string | undefined {
+    return this.zoneInstanceId?.theaterMissionId;
+  }
+
+  /**
+   * The STW mission alert ID: a GUID identifying a mission alert from the World Info structure
+   */
+  public get theaterMissionAlertId(): string | undefined {
+    return this.zoneInstanceId?.theaterMissionAlertId;
+  }
+
+  /**
+   * The STW zone theme: an asset path identifying a zone theme (biome) in the game files
+   */
+  public get zoneThemeClass(): string | undefined {
+    return this.zoneInstanceId?.zoneThemeClass;
+  }
+
+  /**
+   * The STW theater ID: a hex ID identifying a theater from the World Info structure
+   */
+  public get theaterId(): string | undefined {
+    return this.zoneInstanceId?.theaterId;
   }
 }
 

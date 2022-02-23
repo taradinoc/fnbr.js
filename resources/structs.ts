@@ -1383,6 +1383,32 @@ export interface STWWorldInfoData {
   missionAlerts: STWMissionAlertData[];
 }
 
+export interface PartyZoneInstanceIdMeta {
+  theaterMissionId: string;
+  theaterMissionAlertId: string;
+  zoneThemeClass: string;
+}
+
+export interface PartyMemberZoneInstanceIdMeta extends PartyZoneInstanceIdMeta {
+  worldId: string;
+  theaterId: string;
+}
+
+export interface CampaignInfoMeta {
+  matchmakingLevel: number;
+
+  /**
+   * A stringified {@link PartyMemberZoneInstanceIdMeta} or an empty string
+   */
+  zoneInstanceId: string;
+
+  /**
+   * A revision number that increments when changes to the member's public STW profile need
+   * to be observed by other party members
+   */
+  homeBaseVersion: number;
+}
+
 /* -------------------------------------------------------------------------- */
 /*                                    Auth                                    */
 /* -------------------------------------------------------------------------- */
