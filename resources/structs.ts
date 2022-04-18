@@ -1387,6 +1387,8 @@ export interface PartyZoneInstanceIdMeta {
   theaterMissionId: string;
   theaterMissionAlertId: string;
   zoneThemeClass: string;
+  worldId?: string;
+  theaterId?: string;
 }
 
 export interface PartyMemberZoneInstanceIdMeta extends PartyZoneInstanceIdMeta {
