@@ -1,5 +1,6 @@
 import Meta from '../../util/Meta';
 import type { PartySchema, PartyZoneInstanceIdMeta, Playlist } from '../../../resources/structs';
+import type PartyMemberMeta from './PartyMemberMeta';
 
 /**
  * Represents a party's meta
@@ -77,14 +78,20 @@ class PartyMeta extends Meta<PartySchema> {
   }
 
   /**
-   * The STW theater ID: a hex ID identifying a theater from the World Info structure
+   * The STW theater ID: a hex ID identifying a theater from the World Info structure.
+   * WARNING: As of Fortnite version 20.10, this may not always be updated for some theaters.
+   * The party's {@link PartyMeta#zoneInstanceId} or the party leader's
+   * {@link PartyMemberMeta#campaignInfo} may need to be used instead to determine which theater
+   * the party is preparing to enter.
    */
   public get theaterId(): string {
     return this.get('Default:TheaterId_s');
   }
 
   /**
-   * The STW zone tile index: a number identifying a location on the theater map
+   * The STW zone tile index: a number identifying a location on the theater map.
+   * WARNING: As of Fortnite version 20.10, this may not always be updated when the party
+   * leader first opens a theater.
    */
   public get zoneTileIndex(): number | undefined {
     return this.get('Default:ZoneTileIndex_U');
