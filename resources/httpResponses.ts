@@ -332,7 +332,7 @@ export interface STWProfileSurvivorData extends STWProfileItemData {
     portrait?: string;
     max_level_bonus: number;
     personality: string;
-    squad_id: string;
+    squad_id?: string;
     xp: number;
     slotted_building_id: string;
     building_slot_used: number;
@@ -362,7 +362,7 @@ export interface STWProfileLockerData extends STWProfileItemData {
     use_count: number;
     banner_icon_template: string;
     banner_color_template: string;
-    locker_name: string;
+    locker_name?: string;
     item_seen: boolean;
     favorite: boolean;
   };
@@ -418,7 +418,7 @@ export interface STWProfileHeroLoadoutData extends STWProfileItemData {
       leaderslot?: string;
     };
     loadout_index: number;
-    gadgets: {
+    gadgets?: {
       gadget: string;
       slot_index: number;
     }[];
@@ -460,7 +460,7 @@ export interface STWProfileStatsData {
   rewards_claimed_post_max_level: number;
   selected_hero_loadout: string;
   loadouts: string[];
-  collection_book: Partial<{
+  collection_book?: Partial<{
     maxBookXpLevelAchieved: number;
   }>;
   mfa_reward_claimed: boolean;
@@ -493,7 +493,7 @@ export interface STWProfileStatsData {
   client_settings: Partial<{
     pinnedQuestInstances: any[];
   }>;
-  research_levels: Partial<{
+  research_levels?: Partial<{
     technology: number;
     offense: number;
     fortitude: number;
