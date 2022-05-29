@@ -489,6 +489,18 @@ export interface STWProfileStatsData {
   }[];
   permissions: any[];
   unslot_mtx_spend: number;
+  difficulty_increase_rewards_record?: Partial<{
+    pendingRewards: {
+      difficultyIncreaseTier: number;
+      difficultyIncreaseMissionRewards: {
+        tierGroupName: string;
+        items: {
+          itemType: string;
+          quantity: number;
+        }[];
+      };
+    }[];
+  }>;
   twitch: any;
   client_settings: Partial<{
     pinnedQuestInstances: any[];

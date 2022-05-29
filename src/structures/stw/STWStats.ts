@@ -5,7 +5,7 @@ import type {
   STWStatsNodeCostsData, STWStatsBRLoadoutData, STWStatsSTWLoadoutData,
   STWStatsMissionAlertRedemptionData, STWStatsQuestData, STWStatsGameplayStatData,
   STWStatsClientSettingsData, STWStatsResearchLevelsData, STWStatsDailyRewardsData,
-  STWStatsEventCurrencyData, STWStatsXPData,
+  STWStatsEventCurrencyData, STWStatsXPData, STWStatsPendingDifficultyIncreaseRewardData,
 } from '../../../resources/structs';
 
 /**
@@ -66,6 +66,13 @@ class STWStats extends Base {
    * The profile's unslot mtx spend
    */
   public unslotMtxSpend: number;
+
+  /**
+   * The profile's difficulty increase rewards record
+   */
+  public difficultyIncreaseRewardsRecord?: {
+    pendingRewards: STWStatsPendingDifficultyIncreaseRewardData[];
+  };
 
   /**
    * The profile's client settings
@@ -166,6 +173,11 @@ class STWStats extends Base {
     this.legacyResearchPointsSpent = data.legacy_research_points_spent;
     this.gameplayStats = data.gameplay_stats;
     this.unslotMtxSpend = data.unslot_mtx_spend;
+
+    this.difficultyIncreaseRewardsRecord = data.difficulty_increase_rewards_record?.pendingRewards?.length ? {
+      pendingRewards: data.difficulty_increase_rewards_record.pendingRewards
+    } : undefined;
+
     this.clientSettings = data.client_settings;
 
     this.researchLevels = typeof data.research_levels?.fortitude === 'number' ? {

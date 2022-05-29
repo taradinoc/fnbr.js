@@ -1310,6 +1310,19 @@ export interface STWStatsDailyRewardsData {
   };
 }
 
+export interface STWQuantifiedItem {
+  itemType: string;
+  quantity: number;
+}
+
+export interface STWStatsPendingDifficultyIncreaseRewardData {
+  difficultyIncreaseTier: number;
+  difficultyIncreaseMissionRewards: {
+    tierGroupName: string;
+    items: STWQuantifiedItem[];
+  };
+}
+
 export interface STWLockerSlotsData {
   Pickaxe: STWProfileLockerSlotData;
   MusicPack?: STWProfileLockerSlotData;
