@@ -1,7 +1,7 @@
 import Meta from '../../util/Meta';
 import type {
   AssistedChallengeMeta,
-  BannerMeta, BattlePassMeta, CampaignInfoMeta, CosmeticsVariantMeta, MatchMeta, PartyMemberSchema,
+  BannerMeta, BattlePassMeta, PartyMemberCampaignInfoMeta, CosmeticsVariantMeta, MatchMeta, PackedStateMeta, PartyMemberSchema,
   PartyMemberZoneInstanceIdMeta, Platform,
 } from '../../../resources/structs';
 
@@ -100,7 +100,7 @@ class PartyMemberMeta extends Meta<PartyMemberSchema> {
    * The match info
    */
   public get match(): MatchMeta {
-    const location = this.get('Default:Location_s');
+    const location = this.packedState?.location;
     const hasPreloadedAthena = this.get('Default:LobbyState_j')?.LobbyState?.hasPreloadedAthena;
     const isSpectatable = this.get('Default:SpectateAPartyMemberAvailable_b');
     const playerCount = this.get('Default:NumAthenaPlayersLeft_U');
@@ -149,14 +149,14 @@ class PartyMemberMeta extends Meta<PartyMemberSchema> {
    * Whether the member owns Save The World
    */
   public get hasPurchasedSTW() {
-    return !!this.get('Default:HasPurchasedSTW_b');
+    return !!this.packedState?.hasPurchasedSTW;
   }
 
   /**
    * Whether the member has completed the Save The World tutorial
    */
   public get hasCompletedSTWTutorial() {
-    return !!this.get('Default:HasCompletedSTWTutorial_b');
+    return !!this.packedState?.hasCompletedSTWTutorial;
   }
 
   /**
@@ -169,8 +169,15 @@ class PartyMemberMeta extends Meta<PartyMemberSchema> {
   /**
    * The member's STW lobby state
    */
-  public get campaignInfo(): CampaignInfoMeta | undefined {
+  public get campaignInfo(): PartyMemberCampaignInfoMeta | undefined {
     return this.get('Default:CampaignInfo_j')?.CampaignInfo;
+  }
+
+  /**
+   * The member's packed state
+   */
+  public get packedState(): PackedStateMeta | undefined {
+    return this.get('Default:PackedState_j')?.PackedState;
   }
 
   /**

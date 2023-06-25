@@ -440,7 +440,13 @@ class ClientPartyMember extends PartyMember {
    */
   public async setPlaying(isPlaying = true, playerCount = 100, startedAt = new Date()) {
     await this.sendPatch({
-      'Default:Location_s': this.meta.set('Default:Location_s', isPlaying ? 'InGame' : 'PreLobby'),
+      'Default:PackedState_j': this.meta.set('Default:PackedState_j', {
+        ...this.meta.get('Default:PackedState_j'),
+        PackedState: {
+          ...this.meta.get('Default:PackedState_j').PackedState,
+          location: isPlaying ? 'InGame' : 'PreLobby',
+        },
+      }),
       'Default:LobbyState_j': this.meta.set('Default:LobbyState_j', {
         ...this.meta.get('Default:LobbyState_j'),
         LobbyState: {

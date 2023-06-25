@@ -379,7 +379,7 @@ export interface ClientConfig {
 }
 
 export interface MatchMeta {
-  location?: 'PreLobby' | 'InGame' | 'ReturningToFrontEnd';
+  location?: 'PreLobby' | 'ConnectingToLobby' | 'Lobby' | 'JoiningGame' | 'InGame' | 'ReturningToFrontEnd';
   hasPreloadedAthena?: boolean;
   isSpectatable?: boolean;
   playerCount?: number;
@@ -1409,7 +1409,18 @@ export interface PartyMemberZoneInstanceIdMeta extends PartyZoneInstanceIdMeta {
   theaterId: string;
 }
 
-export interface CampaignInfoMeta {
+export interface PartyCampaignInfoMeta {
+  matchmakingState: 'TestingEmptyServers' | 'FindingEmptyServer' | 'JoiningExistingSession' | 'FindingExistingSession' | 'NoMatchesAvailable' | 'NotMatchmaking';
+  lobbyConnectionStarted: boolean;
+  theaterId: string;
+  tileStates: {
+    tileStates: Record<number, number>;
+    numSetBits: number;
+  };
+  zoneTileIndex: number;
+}
+
+export interface PartyMemberCampaignInfoMeta {
   matchmakingLevel: number;
 
   /**
@@ -1422,6 +1433,21 @@ export interface CampaignInfoMeta {
    * to be observed by other party members
    */
   homeBaseVersion: number;
+}
+
+export interface PackedStateMeta {
+  subGame: string;
+  location: 'PreLobby' | 'ConnectingToLobby' | 'Lobby' | 'JoiningGame' | 'InGame' | 'ReturningToFrontEnd';
+  gameMode: 'None' | 'InSaveTheWorld';
+  voiceChatStatus: string;
+  hasCompletedSTWTutorial: boolean;
+  hasPurchasedSTW: boolean;
+  platformSupportsSTW: boolean;
+  bReturnToLobbyAndReadyUp: boolean;
+  bHideReadyUp: boolean;
+  bDownloadOnDemandActive: boolean;
+  bIsPartyLFG: boolean;
+  bShouldRecordPartyChannel: boolean;
 }
 
 /* -------------------------------------------------------------------------- */

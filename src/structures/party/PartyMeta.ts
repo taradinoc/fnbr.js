@@ -1,5 +1,5 @@
 import Meta from '../../util/Meta';
-import type { PartySchema, PartyZoneInstanceIdMeta, Playlist } from '../../../resources/structs';
+import type { PartyCampaignInfoMeta, PartyMemberCampaignInfoMeta, PartySchema, PartyZoneInstanceIdMeta, Playlist } from '../../../resources/structs';
 import type PartyMemberMeta from './PartyMemberMeta';
 
 /**
@@ -40,8 +40,8 @@ class PartyMeta extends Meta<PartySchema> {
   /**
    * The party state
    */
-  public get partyState(): string {
-    return this.get('Default:PartyState_s');
+  public get partyState(): 'WorldView' | 'TheaterView' | 'BattleRoyaleView' | 'Matchmaking' | 'PostMatchmaking' {
+    return this.get('Default:PartyState_s') as any;
   }
 
   /**
@@ -78,14 +78,26 @@ class PartyMeta extends Meta<PartySchema> {
   }
 
   /**
+   * The STW campaign info, containing information about the party's STW lobby state
+   */
+  public get campaignInfo() {
+    const val = this.get('Default:CampaignInfo_j');
+    if (typeof val === 'object' && val !== null && 'CampaignInfo' in val) {
+      return val.CampaignInfo as PartyCampaignInfoMeta;
+    }
+    return undefined;
+  }
+
+  /**
    * The STW theater ID: a hex ID identifying a theater from the World Info structure.
    * WARNING: As of Fortnite version 20.10, this may not always be updated for some theaters.
    * The party's {@link PartyMeta#zoneInstanceId} or the party leader's
    * {@link PartyMemberMeta#campaignInfo} may need to be used instead to determine which theater
    * the party is preparing to enter.
    */
-  public get theaterId(): string {
-    return this.get('Default:TheaterId_s');
+  public get theaterId() {
+    // theaterId is available on both CampaignInfo and ZoneInstanceId
+    return this.zoneInstanceId?.theaterId;
   }
 
   /**
@@ -93,15 +105,15 @@ class PartyMeta extends Meta<PartySchema> {
    * WARNING: As of Fortnite version 20.10, this may not always be updated when the party
    * leader first opens a theater.
    */
-  public get zoneTileIndex(): number | undefined {
-    return this.get('Default:ZoneTileIndex_U');
+  public get zoneTileIndex() {
+    return this.campaignInfo?.zoneTileIndex;
   }
 
   /**
    * The party's matchmaking state
    */
-  public get matchmakingState(): string {
-    return this.get('Default:MatchmakingState_s');
+  public get matchmakingState() {
+    return this.campaignInfo?.matchmakingState;
   }
 }
 
