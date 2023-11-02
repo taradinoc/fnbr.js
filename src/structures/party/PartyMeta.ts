@@ -14,6 +14,18 @@ class PartyMeta extends Meta<PartySchema> {
   }
 
   /**
+   * The region ID (EU, NAE, NAW, etc.)
+   */
+  public get regionId(): string | undefined {
+    const regionId = this.get('Default:RegionID_s');
+    if (typeof regionId !== 'string' || regionId.length === 0) {
+      return undefined;
+    }
+
+    return regionId;
+  }
+
+  /**
    * The custom matchmaking key
    */
   public get customMatchmakingKey(): string | undefined {
@@ -28,13 +40,6 @@ class PartyMeta extends Meta<PartySchema> {
    */
   public get squadFill() {
     return !!this.get('Default:AthenaSquadFill_b');
-  }
-
-  /**
-   * The party's sub-game
-   */
-  public get subGame(): string {
-    return this.get('Default:SubGame_s');
   }
 
   /**

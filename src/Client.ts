@@ -337,19 +337,13 @@ class Client extends EventEmitter {
     const presenceCacheSettings = cacheSettings.presences;
     if (presenceCacheSettings && presenceCacheSettings.sweepInterval && presenceCacheSettings.sweepInterval > 0
       && presenceCacheSettings.maxLifetime > 0 && presenceCacheSettings.maxLifetime !== Infinity) {
-      this.setInterval(
-        this.sweepPresences.bind(this),
-        presenceCacheSettings.sweepInterval,
-      );
+      this.setInterval(this.sweepPresences.bind(this), presenceCacheSettings.sweepInterval);
     }
 
     const userCacheSettings = cacheSettings.users;
     if (userCacheSettings && userCacheSettings.sweepInterval && userCacheSettings.sweepInterval > 0
       && userCacheSettings.maxLifetime > 0 && userCacheSettings.maxLifetime !== Infinity) {
-      this.setInterval(
-        this.sweepUsers.bind(this),
-        userCacheSettings.sweepInterval,
-      );
+      this.setInterval(this.sweepUsers.bind(this), userCacheSettings.sweepInterval);
     }
   }
 
@@ -600,17 +594,10 @@ class Client extends EventEmitter {
     if (onlineType && !toJID) this.config.defaultOnlineType = onlineType;
 
     const rawStatus = {
-      Status:
-        status
-        || this.config.defaultStatus
-        || (this.party
-          && `Battle Royale Lobby - ${this.party.size} / ${this.party.maxSize}`)
+      Status: status || this.config.defaultStatus || (this.party && `Battle Royale Lobby - ${this.party.size} / ${this.party.maxSize}`)
         || 'Playing Battle Royale',
       bIsPlaying: false,
-      bIsJoinable:
-        this.party
-        && !this.party.isPrivate
-        && this.party.size !== this.party.maxSize,
+      bIsJoinable: this.party && !this.party.isPrivate && this.party.size !== this.party.maxSize,
       bHasVoiceSupport: false,
       SessionId: '',
       ProductName: 'Fortnite',
@@ -632,9 +619,7 @@ class Client extends EventEmitter {
       },
     };
 
-    const rawOnlineType = (onlineType || this.config.defaultOnlineType) === 'online'
-      ? undefined
-      : onlineType || this.config.defaultOnlineType;
+    const rawOnlineType = (onlineType || this.config.defaultOnlineType) === 'online' ? undefined : onlineType || this.config.defaultOnlineType;
 
     return this.xmpp.sendStatus(
       rawStatus,
@@ -960,16 +945,8 @@ class Client extends EventEmitter {
         if (audioStreamUrl) {
           variants = variants.map((v: any) => ({
             ...v,
-            stream: Buffer.from(
-              v.type !== 'video'
-                ? v.stream
-                : v.stream.replace(
-                  '#EXTINF:',
-                  '#EXT-X-STREAM-INF:AUDIO="group_audio"\n'
-                      + `#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID="group_audio",NAME="audio",DEFAULT=YES,URI="${audioStreamUrl}"\n#EXTINF:`,
-                ),
-              'utf8',
-            ),
+            stream: Buffer.from(v.type !== 'video' ? v.stream : v.stream.replace('#EXTINF:', '#EXT-X-STREAM-INF:AUDIO="group_audio"\n'
+              + `#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID="group_audio",NAME="audio",DEFAULT=YES,URI="${audioStreamUrl}"\n#EXTINF:`), 'utf8'),
           }));
         }
       }
@@ -1007,12 +984,7 @@ class Client extends EventEmitter {
    * @throws {TypeError} You must provide an array of stats keys for multiple user lookup
    * @throws {EpicgamesAPIError}
    */
-  public async getBRStats(
-    user: string | string[],
-    startTime?: number,
-    endTime?: number,
-    stats: string[] = [],
-  ): Promise<Stats | Stats[] | undefined> {
+  public async getBRStats(user: string | string[], startTime?: number, endTime?: number, stats: string[] = []): Promise<Stats | Stats[] | undefined> {
     const params = [];
     if (startTime) params.push(`startTime=${startTime}`);
     if (endTime) params.push(`endTime=${endTime}`);

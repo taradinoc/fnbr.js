@@ -101,6 +101,13 @@ class PartyMember extends User {
   }
 
   /**
+   * Whether the member is sitting out
+   */
+  public get isSittingOut() {
+    return this.meta.isSittingOut;
+  }
+
+  /**
    * The member's current input method
    */
   public get inputMethod() {
@@ -162,13 +169,6 @@ class PartyMember extends User {
    */
   public get markerLocation() {
     return this.meta.markerLocation;
-  }
-
-  /**
-   * The member's assisted challenge
-   */
-  public get assistedChallenge() {
-    return this.meta.assistedChallenge;
   }
 
   /**

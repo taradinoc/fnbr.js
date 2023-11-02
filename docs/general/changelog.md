@@ -2,11 +2,27 @@
 
 ## 4.0.0
 
-### Changes
+### Additions
 * *WIP*
+
+### Changes
+* Documentation
+  * Updated examples
 
 ### Fixes
 * *WIP*
+
+<hr>
+
+## 3.1.6
+
+### Additions
+* Party
+  * Added a `path` property to `ClientPartyMember#setOutfit()`, `ClientPartyMember#setBackpack()`, `ClientPartyMember#setPet()`, `ClientPartyMember#setPickaxe()`, `ClientPartyMember#setEmote()` and `ClientPartyMember#setEmoji()`
+
+### Fixes
+* Endpoints
+  * Updated hosts
 
 <hr>
 

@@ -1,6 +1,5 @@
 import Meta from '../../util/Meta';
 import type {
-  AssistedChallengeMeta,
   BannerMeta, BattlePassMeta, PartyMemberCampaignInfoMeta, CosmeticsVariantMeta, MatchMeta, PackedStateMeta, PartyMemberSchema,
   PartyMemberZoneInstanceIdMeta, Platform,
 } from '../../../resources/structs';
@@ -44,6 +43,13 @@ class PartyMemberMeta extends Meta<PartyMemberSchema> {
    */
   public get isReady() {
     return this.get('Default:LobbyState_j')?.LobbyState?.gameReadiness === 'Ready';
+  }
+
+  /**
+   * Whether the member is sitting out
+   */
+  public get isSittingOut() {
+    return this.get('Default:LobbyState_j')?.LobbyState?.gameReadiness === 'SittingOut';
   }
 
   /**
@@ -102,13 +108,11 @@ class PartyMemberMeta extends Meta<PartyMemberSchema> {
   public get match(): MatchMeta {
     const location = this.packedState?.location;
     const hasPreloadedAthena = this.get('Default:LobbyState_j')?.LobbyState?.hasPreloadedAthena;
-    const isSpectatable = this.get('Default:SpectateAPartyMemberAvailable_b');
     const playerCount = this.get('Default:NumAthenaPlayersLeft_U');
     const matchStartedAt = this.get('Default:UtcTimeStartedMatchAthena_s');
 
     return {
       hasPreloadedAthena,
-      isSpectatable,
       location,
       matchStartedAt: matchStartedAt && new Date(matchStartedAt),
       playerCount,
@@ -133,19 +137,6 @@ class PartyMemberMeta extends Meta<PartyMemberSchema> {
   }
 
   /**
-   * The assisted challenge
-   */
-  public get assistedChallenge(): AssistedChallengeMeta | undefined {
-    const challenge = this.get('Default:AssistedChallengeInfo_j')?.AssistedChallengeInfo;
-    if (!challenge) return undefined;
-
-    return {
-      questItemDef: challenge.questItemDef,
-      objectivesCompleted: challenge.objectivesCompleted,
-    };
-  }
-
-  /**
    * Whether the member owns Save The World
    */
   public get hasPurchasedSTW() {
@@ -163,7 +154,7 @@ class PartyMemberMeta extends Meta<PartyMemberSchema> {
    * Whether the member's platform supports Save The World
    */
   public get platformSupportsSTW() {
-    return !!this.get('Default:PlatformSupportsSTW_b');
+    return !!this.packedState?.platformSupportsSTW;
   }
 
   /**
