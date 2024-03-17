@@ -1,7 +1,7 @@
 import Meta from '../../util/Meta';
 import type {
   BannerMeta, BattlePassMeta, PartyMemberCampaignInfoMeta, CosmeticsVariantMeta, MatchMeta, PackedStateMeta, PartyMemberSchema,
-  PartyMemberZoneInstanceIdMeta, Platform,
+  PartyMemberZoneInstanceIdMeta, Platform, Island,
 } from '../../../resources/structs';
 
 /**
@@ -12,7 +12,7 @@ class PartyMemberMeta extends Meta<PartyMemberSchema> {
    * The currently equipped outfit CID
    */
   public get outfit(): string | undefined {
-    return (this.get('Default:AthenaCosmeticLoadout_j')?.AthenaCosmeticLoadout?.characterDef as string)?.match(/(?<=\w*\.)\w*/)?.shift();
+    return (this.get('Default:AthenaCosmeticLoadout_j')?.AthenaCosmeticLoadout?.characterPrimaryAssetId as string)?.replace('AthenaCharacter:', '');
   }
 
   /**
@@ -63,15 +63,7 @@ class PartyMemberMeta extends Meta<PartyMemberSchema> {
    * The cosmetic variants
    */
   public get variants(): CosmeticsVariantMeta {
-    const variants = this.get('Default:AthenaCosmeticLoadoutVariants_j')?.AthenaCosmeticLoadoutVariants?.vL;
-    if (!variants) return {};
-
-    const pascalCaseVariants: any = {};
-    Object.keys(variants).forEach((k) => {
-      pascalCaseVariants[`${k.charAt(0).toUpperCase()}${k.slice(1)}`] = variants[k];
-    });
-
-    return pascalCaseVariants;
+    return this.get('Default:AthenaCosmeticLoadoutVariants_j')?.AthenaCosmeticLoadoutVariants?.vL || {};
   }
 
   /**
@@ -117,6 +109,13 @@ class PartyMemberMeta extends Meta<PartyMemberSchema> {
       matchStartedAt: matchStartedAt && new Date(matchStartedAt),
       playerCount,
     };
+  }
+
+  /**
+   * The current island info
+   */
+  public get island(): Island {
+    return this.get('Default:CurrentIsland_j')?.SelectedIsland;
   }
 
   /**
