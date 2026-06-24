@@ -1,6 +1,7 @@
 import Meta from '../../util/Meta';
 import type {
   BannerMeta, BattlePassMeta, CosmeticsVariantMeta, PartyMemberIsland, MatchMeta, PartyMemberSchema, Platform,
+  CampaignInfoMeta, PartyMemberZoneInstanceIdMeta,
 } from '../../../resources/structs';
 
 /**
@@ -86,6 +87,14 @@ class PartyMemberMeta extends Meta<PartyMemberSchema> {
   }
 
   /**
+   * The custom data store
+   */
+  public get customDataStore(): string[] {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (this as any).get('Default:ArbitraryCustomDataStore_j')?.ArbitraryCustomDataStore || [];
+  }
+
+  /**
    * The banner info
    */
   public get banner(): BannerMeta | undefined {
@@ -166,6 +175,64 @@ class PartyMemberMeta extends Meta<PartyMemberSchema> {
    */
   public get hasPurchasedSTW() {
     return !!this.get('Default:PackedState_j')?.PackedState?.hasPurchasedSTW;
+  }
+
+  /**
+   * Whether the member has completed the Save The World tutorial
+   */
+  public get hasCompletedSTWTutorial() {
+    return !!this.get('Default:PackedState_j')?.PackedState?.hasCompletedSTWTutorial;
+  }
+
+  /**
+   * Whether the member's platform supports Save The World
+   */
+  public get platformSupportsSTW() {
+    return !!this.get('Default:PackedState_j')?.PackedState?.platformSupportsSTW;
+  }
+
+  /**
+   * The member's STW campaign info
+   */
+  public get campaignInfo(): CampaignInfoMeta | undefined {
+    return this.get('Default:CampaignInfo_j')?.CampaignInfo;
+  }
+
+  /**
+   * The member's STW zone instance ID
+   * @see {@link PartyMeta#zoneInstanceId}
+   */
+  public get zoneInstanceId(): PartyMemberZoneInstanceIdMeta | undefined {
+    const val = this.campaignInfo?.zoneInstanceId;
+    return typeof val === 'string' && val ? JSON.parse(val) : undefined;
+  }
+
+  /**
+   * The STW mission ID: a GUID identifying a mission from the World Info structure
+   */
+  public get theaterMissionId(): string | undefined {
+    return this.zoneInstanceId?.theaterMissionId;
+  }
+
+  /**
+   * The STW mission alert ID: a GUID identifying a mission alert from the World Info structure
+   */
+  public get theaterMissionAlertId(): string | undefined {
+    return this.zoneInstanceId?.theaterMissionAlertId;
+  }
+
+  /**
+   * The STW zone theme: an asset path identifying a zone theme (biome) in the game files
+   */
+  public get zoneThemeClass(): string | undefined {
+    return this.zoneInstanceId?.zoneThemeClass;
+  }
+
+  /**
+   * The STW theater ID: a hex ID identifying a theater from the World Info structure
+   */
+  public get theaterId(): string | undefined {
+    return this.zoneInstanceId?.theaterId;
   }
 }
 

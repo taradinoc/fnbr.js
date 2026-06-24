@@ -6,6 +6,7 @@ import type {
   STWStatsMissionAlertRedemptionData, STWStatsQuestData, STWStatsGameplayStatData,
   STWStatsClientSettingsData, STWStatsResearchLevelsData, STWStatsDailyRewardsData,
   STWStatsEventCurrencyData, STWStatsXPData,
+  STWStatsDifficultyIncreaseRewardsRecordData,
 } from '../../../resources/structs';
 
 /**
@@ -111,6 +112,11 @@ class STWStats extends Base {
    * The profile's daily rewards data
    */
   public dailyRewards?: STWStatsDailyRewardsData;
+
+  /**
+   * The profile's pending difficulty increase rewards
+   */
+  public difficultyIncreaseRewardsRecord?: STWStatsDifficultyIncreaseRewardsRecordData;
 
   /**
    * The profile's amount of packs granted

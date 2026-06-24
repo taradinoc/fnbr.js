@@ -1361,6 +1361,23 @@ export interface STWStatsDailyRewardsData {
   };
 }
 
+export interface STWQuantifiedItem {
+  itemType: string;
+  quantity: number;
+}
+
+export interface STWStatsPendingDifficultyIncreaseRewardData {
+  difficultyIncreaseTier: number;
+  difficultyIncreaseMissionRewards: {
+    tierGroupName: string;
+    items: STWQuantifiedItem[];
+  };
+}
+
+export interface STWStatsDifficultyIncreaseRewardsRecordData {
+  pendingRewards: STWStatsPendingDifficultyIncreaseRewardData[];
+}
+
 export interface STWLockerSlotsData {
   Pickaxe: STWProfileLockerSlotData;
   MusicPack?: STWProfileLockerSlotData;
@@ -1432,6 +1449,58 @@ export interface STWWorldInfoData {
   theaters: STWTheaterData[];
   missions: STWMissionData[];
   missionAlerts: STWMissionAlertData[];
+}
+
+export interface PartyZoneInstanceIdMeta {
+  theaterMissionId: string;
+  theaterMissionAlertId: string;
+  zoneThemeClass: string;
+  worldId?: string;
+  theaterId?: string;
+}
+
+export interface PartyMemberZoneInstanceIdMeta extends PartyZoneInstanceIdMeta {
+  worldId: string;
+  theaterId: string;
+}
+
+export interface CampaignInfoMeta {
+  matchmakingLevel: number;
+  /** A stringified {@link PartyMemberZoneInstanceIdMeta} or an empty string */
+  zoneInstanceId: string;
+  /** A revision number that increments when changes to the member's public STW profile need to be observed by other party members */
+  homeBaseVersion: number;
+}
+
+export interface PartyCampaignInfoMeta {
+  matchmakingState: 'TestingEmptyServers' | 'FindingEmptyServer' | 'JoiningExistingSession' | 'FindingExistingSession' | 'NoMatchesAvailable' | 'NotMatchmaking';
+  lobbyConnectionStarted: boolean;
+  theaterId: string;
+  tileStates: {
+    tileStates: Record<number, number>;
+    numSetBits: number;
+  };
+  zoneTileIndex: number;
+}
+
+export interface AssistedChallengeMeta {
+  questItemDef: string;
+  objectivesCompleted: number;
+}
+
+export interface PackedStateMeta {
+  subGame: string;
+  location: 'PreLobby' | 'ConnectingToLobby' | 'Lobby' | 'JoiningGame' | 'InGame' | 'ReturningToFrontEnd';
+  gameMode: 'None' | 'InSaveTheWorld';
+  voiceChatStatus: string;
+  hasCompletedSTWTutorial: boolean;
+  hasPurchasedSTW: boolean;
+  platformSupportsSTW: boolean;
+  bReturnToLobbyAndReadyUp: boolean;
+  bHideReadyUp: boolean;
+  bDownloadOnDemandActive: boolean;
+  bIsPartyLFG: boolean;
+  bShouldRecordPartyChannel: boolean;
 }
 
 /* -------------------------------------------------------------------------- */
