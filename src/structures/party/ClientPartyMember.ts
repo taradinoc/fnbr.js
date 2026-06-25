@@ -229,7 +229,7 @@ class ClientPartyMember extends PartyMember {
       if (!backpack) {
         delete nextSlots.ab;
       } else {
-        const variants = new Array(Math.max(...backpack.variants?.map((v) => v.channelIndex) ?? [0])).fill(0);
+        const variants = new Array(Math.max(0, ...backpack.variants?.map((v) => v.channelIndex) ?? [0])).fill(0);
         backpack.variants?.forEach((v) => {
           variants[v.channelIndex] = v.variantIndex;
         });
@@ -242,7 +242,7 @@ class ClientPartyMember extends PartyMember {
     }
 
     if (pickaxe) {
-      const variants = new Array(Math.max(...pickaxe.variants?.map((v) => v.channelIndex) ?? [0])).fill(0);
+      const variants = new Array(Math.max(0, ...pickaxe.variants?.map((v) => v.channelIndex) ?? [0])).fill(0);
       pickaxe.variants?.forEach((v) => {
         variants[v.channelIndex] = v.variantIndex;
       });
